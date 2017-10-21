@@ -4,44 +4,44 @@ namespace gempir\api;
 
 abstract class RequestHandler
 {
-	/** @var AccessHandler */
-	protected $accessHandler;
+    /** @var AccessHandler */
+    protected $accessHandler;
 
-	public function __construct(AccessHandler $accessHandler)
-	{
-		$this->accessHandler = $accessHandler;
-	}
+    public function __construct(AccessHandler $accessHandler)
+    {
+        $this->accessHandler = $accessHandler;
+    }
 
-	public abstract function handle(Request $request): Response;
+    public abstract function handle(Request $request): Response;
 
-	public abstract function getRoute(): string;
+    public abstract function getRoute(): string;
 
-	private function getAccessToken(Request $request): string
-	{
-		$headers = $request->getHeaders();
+    protected function ensureHasReadAccess(Request $request)
+    {
+        $token = $this->getAccessToken($request);
 
-		if (!array_key_exists("Access-Token", $headers)) {
-			throw new AccessException("Access-Token not found in request headers");
-		}
+        if (!$this->accessHandler->hasReadAccess($token)) {
+            throw new AccessException("Access-Token does not allow read access");
+        }
+    }
 
-		return $headers['Access-Token'];
-	}
+    private function getAccessToken(Request $request): string
+    {
+        $headers = $request->getHeaders();
 
-	protected function ensureHasReadAccess(Request $request)
-	{
-		$token = $this->getAccessToken($request);
+        if (!array_key_exists("Access-Token", $headers)) {
+            throw new AccessException("Access-Token not found in request headers");
+        }
 
-		if (!$this->accessHandler->hasReadAccess($token)) {
-			throw new AccessException("Access-Token does not allow read access");
-		}
-	}
+        return $headers['Access-Token'];
+    }
 
-	protected function ensureHasReadAndWriteAccess(Request $request)
-	{
-		$token = $this->getAccessToken($request);
+    protected function ensureHasReadAndWriteAccess(Request $request)
+    {
+        $token = $this->getAccessToken($request);
 
-		if (!$this->accessHandler->hasReadAndWriteAccess($token)) {
-			throw new AccessException("Access-Token does not allow read and write access");
-		}
-	}
+        if (!$this->accessHandler->hasReadAndWriteAccess($token)) {
+            throw new AccessException("Access-Token does not allow read and write access");
+        }
+    }
 }

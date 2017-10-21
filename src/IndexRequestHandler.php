@@ -4,17 +4,17 @@ namespace gempir\api;
 
 class IndexRequestHandler extends RequestHandler
 {
-	public function handle(Request $request): Response
-	{
-		$this->ensureHasReadAndWriteAccess($request);
+    public function handle(Request $request): Response
+    {
+        $this->ensureHasReadAndWriteAccess($request);
 
-		$headers = ["Content-Type" => "application/json"];
+        $headers = ["Content-Type" => "application/json"];
 
-		return Response::fromParameters(json_encode(["message" => "indexed data"]), $headers);
-	}
+        return Response::fromParameters(json_encode(["message" => "indexed data"]), $headers);
+    }
 
-	public function getRoute(): string
-	{
-		return "/index";
-	}
+    public function getRoute(): string
+    {
+        return "/index";
+    }
 }

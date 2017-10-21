@@ -9,16 +9,16 @@ use PHPUnit\Framework\TestCase;
  */
 class ResponseTest extends TestCase
 {
-	public function testCanGetResponseAsString()
-	{
-		$this->assertSame("Hi", (string) Response::fromParameters("Hi", []));
-	}
+    public function testCanGetResponseAsString()
+    {
+        $this->assertSame("Hi", (string) Response::fromParameters("Hi", []));
+    }
 
-	public function testCanGetHeaders()
-	{
-		$this->assertSame(
-			"application/json",
-			Response::fromParameters("Hi", ["Content-Type" => "application/json"])->getHeaders()["Content-Type"]
-		);
-	}
+    public function testCanGetHeaders()
+    {
+        $this->assertSame(
+            "application/json",
+            Response::fromParameters("Hi", ["Content-Type" => "application/json"])->getHeaders()["Content-Type"]
+        );
+    }
 }

@@ -9,37 +9,37 @@ use PHPUnit\Framework\TestCase;
  */
 class RouterTest extends TestCase
 {
-	public function testCanRouteRootRequest()
-	{
-		$rootRequestHandlerMock = $this->createMock(RootRequestHandler::class);
-		$rootRequestHandlerMock->method("getRoute")->willReturn("/");
-		$searchRequestHandlerMock = $this->createMock(SearchRequestHandler::class);
-		$indexRequestHandlerMock = $this->createMock(IndexRequestHandler::class);
+    public function testCanRouteRootRequest()
+    {
+        $rootRequestHandlerMock = $this->createMock(RootRequestHandler::class);
+        $rootRequestHandlerMock->method("getRoute")->willReturn("/");
+        $searchRequestHandlerMock = $this->createMock(SearchRequestHandler::class);
+        $indexRequestHandlerMock = $this->createMock(IndexRequestHandler::class);
 
-		$router = new Router($rootRequestHandlerMock, $searchRequestHandlerMock, $indexRequestHandlerMock);
+        $router = new Router($rootRequestHandlerMock, $searchRequestHandlerMock, $indexRequestHandlerMock);
 
-		$requestMock = $this->createMock(Request::class);
-		$requestMock->method("getHeaders")->willReturn([]);
-		$requestMock->method("getPath")->willReturn("/");
+        $requestMock = $this->createMock(Request::class);
+        $requestMock->method("getHeaders")->willReturn([]);
+        $requestMock->method("getPath")->willReturn("/");
 
-		$this->assertInstanceOf(RequestHandler::class, $router->route($requestMock));
-	}
+        $this->assertInstanceOf(RequestHandler::class, $router->route($requestMock));
+    }
 
-	public function testThrowsExceptionWhenCanNotRouteRequest()
-	{
-		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessage("could not route request");
+    public function testThrowsExceptionWhenCanNotRouteRequest()
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage("could not route request");
 
-		$rootRequestHandlerMock = $this->createMock(RootRequestHandler::class);
-		$searchRequestHandlerMock = $this->createMock(SearchRequestHandler::class);
-		$indexRequestHandlerMock = $this->createMock(IndexRequestHandler::class);
+        $rootRequestHandlerMock = $this->createMock(RootRequestHandler::class);
+        $searchRequestHandlerMock = $this->createMock(SearchRequestHandler::class);
+        $indexRequestHandlerMock = $this->createMock(IndexRequestHandler::class);
 
-		$router = new Router($rootRequestHandlerMock, $searchRequestHandlerMock, $indexRequestHandlerMock);
+        $router = new Router($rootRequestHandlerMock, $searchRequestHandlerMock, $indexRequestHandlerMock);
 
-		$requestMock = $this->createMock(Request::class);
-		$requestMock->method("getHeaders")->willReturn([]);
-		$requestMock->method("getPath")->willReturn("/abc");
+        $requestMock = $this->createMock(Request::class);
+        $requestMock->method("getHeaders")->willReturn([]);
+        $requestMock->method("getPath")->willReturn("/abc");
 
-		$router->route($requestMock);
-	}
+        $router->route($requestMock);
+    }
 }

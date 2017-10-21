@@ -10,26 +10,26 @@ use PHPUnit\Framework\TestCase;
  */
 class RootRequestHandlerTest extends TestCase
 {
-	public function testCanHandleRequest()
-	{
-		$accessHandler = new AccessHandler("dummy");
+    public function testCanHandleRequest()
+    {
+        $accessHandler = new AccessHandler("dummy");
 
-		$requestMock = $this->createMock(Request::class);
-		$requestMock->method("getHeaders")->willReturn([]);
-		$requestMock->method("getPath")->willReturn("/");
+        $requestMock = $this->createMock(Request::class);
+        $requestMock->method("getHeaders")->willReturn([]);
+        $requestMock->method("getPath")->willReturn("/");
 
-		$this->assertTrue(
-			array_key_exists(
-				"Access-Token",
-				json_decode((string) (new RootRequestHandler($accessHandler))->handle($requestMock), true)
-			)
-		);
-	}
+        $this->assertTrue(
+            array_key_exists(
+                "Access-Token",
+                json_decode((string) (new RootRequestHandler($accessHandler))->handle($requestMock), true)
+            )
+        );
+    }
 
-	public function testCanGetRoute()
-	{
-		$accessHandler = new AccessHandler("dummy");
+    public function testCanGetRoute()
+    {
+        $accessHandler = new AccessHandler("dummy");
 
-		$this->assertSame("/", (new RootRequestHandler($accessHandler))->getRoute());
-	}
+        $this->assertSame("/", (new RootRequestHandler($accessHandler))->getRoute());
+    }
 }

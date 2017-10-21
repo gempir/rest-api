@@ -7,31 +7,31 @@ namespace gempir\api;
  */
 class Application
 {
-	/** @var Router */
-	private $router;
+    /** @var Router */
+    private $router;
 
-	public function __construct(Router $router)
-	{
-		$this->router = $router;
-	}
+    public function __construct(Router $router)
+    {
+        $this->router = $router;
+    }
 
-	public function run()
-	{
-		try {
-			$request = Request::fromGlobalState();
+    public function run()
+    {
+        try {
+            $request = Request::fromGlobalState();
 
-			$requestHandler = $this->router->route($request);
-			$response = $requestHandler->handle($request);
+            $requestHandler = $this->router->route($request);
+            $response = $requestHandler->handle($request);
 
-			foreach($response->getHeaders() as $key => $value) {
-				header($key . ": " . $value);
-			}
+            foreach ($response->getHeaders() as $key => $value) {
+                header($key . ": " . $value);
+            }
 
-			echo (string) $response;
+            echo (string) $response;
 
-		} catch (\Exception $e) {
-			header("Content-Type: application/json");
-			echo json_encode(["error" => $e->getMessage()]);
-		}
-	}
+        } catch (\Exception $e) {
+            header("Content-Type: application/json");
+            echo json_encode(["error" => $e->getMessage()]);
+        }
+    }
 }
