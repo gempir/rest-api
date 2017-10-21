@@ -24,7 +24,7 @@ class AccessHandler
             return false;
         }
 
-        return $decoded->read;
+        return isset($decoded->read) && $decoded->read;
     }
 
     public function hasReadAndWriteAccess(string $token): bool
@@ -35,7 +35,7 @@ class AccessHandler
             return false;
         }
 
-        return $decoded->read && $decoded->write;
+        return isset($decoded->read) && $decoded->read && isset($decoded->write) && $decoded->write;
     }
 
     public function generateReadToken(): string
@@ -43,7 +43,7 @@ class AccessHandler
         $token = [
             "read" => true,
             "write" => false,
-            "exp" => time() + (365 * 24 * 60 * 60)
+            "exp" => time() + (5 * 24 * 60 * 60)
         ];
 
         return JWT::encode($token, $this->secret);
@@ -54,7 +54,7 @@ class AccessHandler
         $token = [
             "read" => true,
             "write" => true,
-            "expiresAt" => time() + (365 * 24 * 60 * 60)
+            "exp" => time() + (10 * 365 * 24 * 60 * 60)
         ];
 
         return JWT::encode($token, $this->secret);
