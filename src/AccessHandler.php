@@ -20,27 +20,22 @@ class AccessHandler
     {
         try {
             $decoded = JWT::decode($token, $this->secret, self::ALGORITHMS);
-
-            return $decoded->read && !$this->isExpiredToken($decoded);
         } catch (\Exception $e) {
             return false;
         }
-    }
 
-    private function isExpiredToken(\stdClass $decoded): bool
-    {
-        return strtotime($decoded->expiresAt) <= strtotime("today");
+        return $decoded->read;
     }
 
     public function hasReadAndWriteAccess(string $token): bool
     {
         try {
             $decoded = JWT::decode($token, $this->secret, self::ALGORITHMS);
-
-            return $decoded->read && $decoded->write && !$this->isExpiredToken($decoded);
         } catch (\Exception $e) {
             return false;
         }
+
+        return $decoded->read && $decoded->write;
     }
 
     public function generateReadToken(): string
@@ -48,7 +43,7 @@ class AccessHandler
         $token = [
             "read" => true,
             "write" => false,
-            "expiresAt" => date('Y-m-d H:i:s', strtotime('+5 day'))
+            "exp" => time() + (365 * 24 * 60 * 60)
         ];
 
         return JWT::encode($token, $this->secret);
@@ -59,7 +54,7 @@ class AccessHandler
         $token = [
             "read" => true,
             "write" => true,
-            "expiresAt" => date('Y-m-d', strtotime('+5 day'))
+            "expiresAt" => time() + (365 * 24 * 60 * 60)
         ];
 
         return JWT::encode($token, $this->secret);
