@@ -7,14 +7,23 @@ class Response
 	/** @var string */
 	private $response;
 
-	public static function fromString(string $response)
+	/** @var array */
+	private $headers;
+
+	public static function fromParameters(string $response, array $headers)
 	{
-		return new self($response);
+		return new self($response, $headers);
 	}
 
-	private function __construct(string $response)
+	private function __construct(string $response, array $headers)
 	{
 		$this->response = $response;
+		$this->headers = $headers;
+	}
+
+	public function getHeaders(): array
+	{
+		return $this->headers;
 	}
 
 	public function __toString(): string

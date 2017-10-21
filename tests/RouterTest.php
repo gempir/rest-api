@@ -4,13 +4,19 @@ namespace gempir\api;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \gempir\api\Router
+ */
 class RouterTest extends TestCase
 {
-	public function testCanRouteRequest()
+	public function testCanRouteRootRequest()
 	{
 		$rootRequestHandlerMock = $this->createMock(RootRequestHandler::class);
+		$rootRequestHandlerMock->method("getRoute")->willReturn("/");
+		$searchRequestHandlerMock = $this->createMock(SearchRequestHandler::class);
+		$indexRequestHandlerMock = $this->createMock(IndexRequestHandler::class);
 
-		$router = new Router($rootRequestHandlerMock);
+		$router = new Router($rootRequestHandlerMock, $searchRequestHandlerMock, $indexRequestHandlerMock);
 
 		$requestMock = $this->createMock(Request::class);
 		$requestMock->method("getHeaders")->willReturn([]);
@@ -25,8 +31,10 @@ class RouterTest extends TestCase
 		$this->expectExceptionMessage("could not route request");
 
 		$rootRequestHandlerMock = $this->createMock(RootRequestHandler::class);
+		$searchRequestHandlerMock = $this->createMock(SearchRequestHandler::class);
+		$indexRequestHandlerMock = $this->createMock(IndexRequestHandler::class);
 
-		$router = new Router($rootRequestHandlerMock);
+		$router = new Router($rootRequestHandlerMock, $searchRequestHandlerMock, $indexRequestHandlerMock);
 
 		$requestMock = $this->createMock(Request::class);
 		$requestMock->method("getHeaders")->willReturn([]);

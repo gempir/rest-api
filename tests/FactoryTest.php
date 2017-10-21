@@ -4,10 +4,13 @@ namespace gempir\api;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \gempir\api\Factory
+ */
 class FactoryTest extends TestCase
 {
-	public function testCanCreateRouter()
+	public function testCanCreateApplication()
 	{
-		$this->assertInstanceOf(Router::class, (new Factory())->createRouter());
+		$this->assertInstanceOf(Application::class, (new Factory())->createApplication());
 	}
 }

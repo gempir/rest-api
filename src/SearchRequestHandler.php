@@ -2,20 +2,19 @@
 
 namespace gempir\api;
 
-class RootRequestHandler extends RequestHandler
+class SearchRequestHandler extends RequestHandler
 {
 	public function handle(Request $request): Response
 	{
+		$this->ensureHasReadAccess($request);
+
 		$headers = ["Content-Type" => "application/json"];
 
-		return Response::fromParameters(
-			json_encode(["Access-Token" => $this->accessHandler->generateReadToken()]),
-			$headers
-		);
+		return Response::fromParameters(json_encode(["results" => ["dummy"]]), $headers);
 	}
 
 	public function getRoute(): string
 	{
-		return "/";
+		return "/search";
 	}
 }
