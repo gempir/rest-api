@@ -28,7 +28,6 @@ class Application
             }
 
             echo (string) $response;
-
         } catch (\Exception $e) {
             header("Content-Type: application/json");
             echo json_encode(["error" => $e->getMessage()]);

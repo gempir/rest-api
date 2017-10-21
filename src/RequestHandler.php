@@ -12,9 +12,9 @@ abstract class RequestHandler
         $this->accessHandler = $accessHandler;
     }
 
-    public abstract function handle(Request $request): Response;
+    abstract public function handle(Request $request): Response;
 
-    public abstract function getRoute(): string;
+    abstract public function getRoute(): string;
 
     protected function ensureHasReadAccess(Request $request)
     {

@@ -19,7 +19,8 @@ class SearchRequestHandlerTest extends TestCase
         $requestMock->method("getHeaders")->willReturn(["Access-Token" => $readToken]);
         $requestMock->method("getPath")->willReturn("/search");
 
-        $this->assertTrue(count(json_decode((new SearchRequestHandler($accessHandler))->handle($requestMock))->results) > 0
+        $this->assertTrue(
+            count(json_decode((new SearchRequestHandler($accessHandler))->handle($requestMock))->results) > 0
         );
     }
 

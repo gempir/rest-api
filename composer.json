@@ -10,9 +10,10 @@
     },
     "scripts": {
         "unit": "vendor/bin/phpunit",
-        "cs": "vendor/bin/phpcs -w -p -s --standard=vendor/flyeralarm/php-code-validator/ruleset.xml src/ tests/",
+        "phpcs": "vendor/bin/phpcs -w -p -s --standard=vendor/flyeralarm/php-code-validator/ruleset.xml src/ tests/",
+        "phpcbf": "vendor/bin/phpcbf --standard=vendor/flyeralarm/php-code-validator/ruleset.xml src/ tests/",
         "test": [
-            "@cs",
+            "@phpcs",
             "@unit"
         ]
     },
